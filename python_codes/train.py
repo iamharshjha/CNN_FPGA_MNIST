@@ -71,7 +71,8 @@ def main():
 
     )
     model.summary()
-    batch_size = 16
+    """
+   batch_size = 16
     epochs = 10
 
     model.compile(loss = "categorical_crossentropy" , optimizer = "adam" ,metrics = ["accuracy"])
@@ -80,8 +81,8 @@ def main():
     score = model.evaluate(x_test, y_test, verbose=1)
     print("Test loss:", score[0])
     print("Test accuracy:", score[1])
-    model.save('trained_model.h5', save_format='h5')
-    model.save_weights("trained_model.weights.h5")
-
+    #model.save('trained_model.h5', save_format='h5')
+    #model.save_weights("trained_model.weights.h5")
+"""
 if __name__ == "__main__":
     main()
