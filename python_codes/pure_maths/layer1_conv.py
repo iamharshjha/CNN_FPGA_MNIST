@@ -23,10 +23,9 @@ def depthwise_sep_conv(image: np.ndarray, depthwise_weights: np.ndarray, pointwi
             for c in range(input_channels):
                 region = image[y:y + depthwise_kernel_size, x:x + depthwise_kernel_size, c]  # Shape: (5, 5)
                 kernel = depthwise_weights[c]  # Shape: (5, 5)
-                print("kernel_shape" , kernel.shape)
-                print("kerenel" , kernel)
-                print("region shape" , region.shape)
-                print("region" , region)
+
+                #print("region shape" , region.shape)
+                #print("region" , region)
                 depthwise_output[y, x, c] = np.sum(region * kernel)  # Element-wise multiplication and sum
 
     output_height, output_width, _ = depthwise_output.shape
@@ -61,7 +60,7 @@ def process_layer1(input_image: np.ndarray) -> np.ndarray:
     layer1_output = depthwise_sep_conv(input_image, depthwise_weights, pointwise_weights,
                                        depthwise_kernel_size=5, pointwise_kernel_size=1,
                                        pointwise_biases=pointwise_biases)
-    print("shape after layer 1 :" , layer1_output.shape)
+    print("shape after passing through layer 1 :" , layer1_output.shape)
     return layer1_output
 
 """if __name__ == "__main__":

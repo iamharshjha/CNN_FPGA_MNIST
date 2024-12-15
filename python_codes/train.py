@@ -59,10 +59,10 @@ def main():
             tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
             tf.keras.layers.Flatten(),  # Flatten the feature maps
             tf.keras.layers.Dense(
-                units=128,  # Number of units in Dense layer
+                units=64,  # Number of units in Dense layer
                 activation='relu'
             ),
-            tf.keras.layers.Dropout(0.5),  # Dropout for regularization
+            # tf.keras.layers.Dropout(0.5),  # Dropout for regularization
             tf.keras.layers.Dense(
                 units=10,  # Number of output units (classes)
                 activation='softmax'
@@ -71,8 +71,8 @@ def main():
 
     )
     model.summary()
-    """
-   batch_size = 16
+
+    batch_size = 16
     epochs = 10
 
     model.compile(loss = "categorical_crossentropy" , optimizer = "adam" ,metrics = ["accuracy"])
@@ -81,8 +81,8 @@ def main():
     score = model.evaluate(x_test, y_test, verbose=1)
     print("Test loss:", score[0])
     print("Test accuracy:", score[1])
-    #model.save('trained_model.h5', save_format='h5')
-    #model.save_weights("trained_model.weights.h5")
-"""
+    model.save('trained_model.h5', save_format='h5')
+    model.save_weights("trained_model.weights.h5")
+
 if __name__ == "__main__":
     main()
