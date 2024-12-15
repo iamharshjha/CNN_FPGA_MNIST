@@ -133,9 +133,9 @@ def process_and_update_file(file_path):
             file.write(line)
 
 def process_layer5_file(input_file , output_file,input_vector):
-    extracted_data = extract_floats_from_file(input_file, output_file)
-    processed_values = process_numbers_from_file(output_file)
-    process_and_update_file(output_file)
+    # extracted_data = extract_floats_from_file(input_file, output_file)
+    # processed_values = process_numbers_from_file(output_file)
+    # process_and_update_file(output_file)
     with open(output_file, 'r') as f:
         content = f.readlines()
 
@@ -159,5 +159,36 @@ def process_layer5_file(input_file , output_file,input_vector):
         print(output_vector)
     return output_vector
 
-#def process_layer6_file(input_file , output_file,input_vector):
+def process_layer_6_file(file_path,input_data):
+    with open(file_path, 'r') as file:
+        data = file.read().splitlines()
+
+        # Convert the data into a list of floats
+        data = [float(x) for x in data]
+
+        # Extract the first 640 values as weights, reshape them into (64, 10)
+        weights = np.array(data[:640]).reshape((64, 10))
+
+        # Extract the next 10 values as biases
+        biases = np.array(data[640:650])
+        input_data = np.array(input_data)
+
+    # Perform the matrix multiplication between input data and weights
+    output = np.dot(input_data, weights) + biases
+
+
+
+
+    # Example usage
+    #input_data = np.random.rand(64)  # Example input data with 64 elements
+
+    # Load weights and biases from a text file
+    #weights, biases = load_weights_and_biases('layer_6_flat.txt')
+
+    # Perform the dense layer computation
+    #output = dense_layer(input_data, weights, biases)
+
+    # Print the output
+    print("Output of dense layer:", output)
+    return output
 
