@@ -5,11 +5,11 @@ def get_weights(weights , filename):
     os.makedirs("./weights", exist_ok=True)
 
     # Open the file for writing (it will create the file if it doesn't exist)
-    with open(f"./weights/{filename}.txt", "w") as file:
+    with open(f"./weights/raw/{filename}.txt", "w") as file:
         file.write(str(weights))
 
 
-model = keras.models.load_model("./trained_model.h5" , compile = True)
+model = keras.models.load_model("../trained_model.h5" , compile = True)
 layer0_separable_conv2d = model.layers[0]  # Assuming this is a SeparableConv2D layer
 layer2_separable_conv2d = model.layers[2]  # Assuming this is also a SeparableConv2D layer
 layer4_flatten = model.layers[4]
