@@ -1,5 +1,5 @@
 # CNN_FPGA_MNIST
-Part of Mtech project
+
 
 
 The aim of the project is to implement depthwise separable convolution on FPGA board ( not yet decided the platform to use). For that we need to implement a verilog code which reads the weights and biases and do the 
