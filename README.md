@@ -15,7 +15,7 @@ Then in utility.py we have defined functions like -> softmax , dense , maxpoolin
 check,py was to test the model after each layer. 
 The integration of all layers was done in train_raw.py
 
-All the references of this project is from this git repo : https://github.com/XAli-SHX/FPGA-Implementation-of-Image-Processing-for-MNIST-Dataset-Based-on-CNN-Algorithm
+
 
 
  
