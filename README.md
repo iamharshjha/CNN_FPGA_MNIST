@@ -17,5 +17,5 @@ The integration of all layers was done in train_raw.py
 
 All the references of this project is from this git repo : https://github.com/XAli-SHX/FPGA-Implementation-of-Image-Processing-for-MNIST-Dataset-Based-on-CNN-Algorithm
 
-Only difference is in this repo , standard convolution was used and in this one we have used depthwise separable convolution , which reduces the number of multiplications
+
  
