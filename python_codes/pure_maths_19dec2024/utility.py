@@ -16,10 +16,17 @@ def RELU(image:list , shape : tuple):
 
     return output.tolist()
 
-def SOFTMAX(image:list):
-    imglen = len(image)
-    exps = [math.exp(pxi) for pxi in image]
+def SOFTMAX(image: list):
+    # Find the maximum value in the image to improve numerical stability
+    max_value = max(image)
+
+    # Subtract the maximum value from each element in the image
+    exps = [math.exp(pxi - max_value) for pxi in image]
+
+    # Compute the sum of the exponentials
     expSum = sum(exps)
+
+    # Compute the softmax output
     output = [ei / expSum for ei in exps]
 
     print("output after SOFTMAX:")
@@ -47,18 +54,36 @@ def flatten(inputImage: list) -> list:
     arr = np.array(inputImage)
     return arr.flatten().tolist()
 
+def flatten_column_major(inputImage: list) -> list:
+    channels = len(inputImage)  # Number of channels
+    height = len(inputImage[0])  # Height of the image
+    width = len(inputImage[0][0])  # Width of the image
+
+    flattened = []
+
+    # Iterate through each spatial position (y, x)
+    for x in range(width):
+        for y in range(height):
+            for ch in range(channels):
+                flattened.append(inputImage[ch][y][x])
+
+    return flattened
 
 def DENSE(inputimg :list , weights :list , shape :tuple) -> list:
     inlen ,outlen = shape
     mulWeights = weights[0]
     biasWeights = weights[1]
+    print("weights:" , mulWeights , " ")
+    print(np.array(mulWeights).shape)
+    print("bias :" , biasWeights )
+    print( np.array(biasWeights).shape)
     output = np.zeros(outlen)
     for i in range (outlen):
         for y in range(inlen):
             output[i] += inputimg[y] * mulWeights[y][i]
             output[i] += biasWeights[i]
-    print("output after dense layer:")
-    print(output)
+    # print("output after dense layer:")
+    # print(output)
     return output.tolist()
 
 
@@ -72,8 +97,8 @@ def DEPTHWISE_SEP(inputImage: list, inputShape: tuple, layer:list , kernelShape:
     kxSize = kernelShape[0]
     kySize = kernelShape[1]
     channelOut = pointwise_shape[3]  # Output channels after pointwise convolution
-    print("Depthwise Kernel Shape:", np.array(depthwise_kernel).shape)
-    print("Pointwise Kernel Shape:", np.array(pointwise_kernel).shape)
+    # print("Depthwise Kernel Shape:", np.array(depthwise_kernel).shape)
+    # print("Pointwise Kernel Shape:", np.array(pointwise_kernel).shape)
 
     # Step 1: Depthwise Convolution (each input channel has its own kernel)
     depthwise_output = np.zeros((width - kxSize + 1, height - kySize + 1, channelIn))  # output of depthwise conv
@@ -88,13 +113,15 @@ def DEPTHWISE_SEP(inputImage: list, inputShape: tuple, layer:list , kernelShape:
                         # Kernel value at [kx, ky, chIn, chOut]
                         kr = depthwise_kernel[kx][ky][chIn][0]
                         # Input pixel at [x + kx, y + ky, chIn]
+                        #print("kernel " , kr)
                         px = inputImage[x + kx][y + ky][chIn]
+                        #print("input image region " , px)
                         # Add to the depthwise output for chIn
                         # print(f"kr: {kr}, type: {type(kr)}")
                         # print(f"px: {px}, type: {type(px)}")
 
                         depthwise_output[x][y][chIn] += kr * px
-
+                        #print("output:" , depthwise_output[x][y][chIn])
     # Step 2: Pointwise Convolution (1x1 convolution on depthwise output)
     pointwise_output = np.zeros((width - kxSize + 1, height - kySize + 1, channelOut))  # output of pointwise conv
     # print("output after depthwise conv:")
