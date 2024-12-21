@@ -270,6 +270,7 @@ def actualAnswer(layer0_conv2d_weights, layer2_conv2d_weights,layer5_dense_weigh
     #print(layer3Out)
     layer4Flatten = flatten(layer3Out)
     print("flattened input neurons: ",layer4Flatten)
+    print("flattened input" , layer4Flatten)
     layer5dense = DENSE(layer4Flatten , layer5_dense_weights , (64,64))
     print("before passing through pooling layer -> " , layer5dense)
     layer5pool = np.maximum(layer5dense,0)
@@ -301,7 +302,7 @@ def main():
     x_test = np.expand_dims(x_test, -1)
 
 
-    n = 100
+    n = 1
     cnt = 0
     for i in range(n):
         testModel = x_test[i].reshape([1, 28, 28, -1])

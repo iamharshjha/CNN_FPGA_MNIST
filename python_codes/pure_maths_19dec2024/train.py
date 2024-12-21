@@ -61,7 +61,7 @@ def actualAnswer(layer0_conv2d_weights, layer2_conv2d_weights,layer5_dense_weigh
     max_index = output.index(max(output))
     print("the model predicted output is: " , max_index)
 
-
+    return max_index
 
     #layer5Dropout = dropout(layer4Flatten, 0.5)
 
@@ -70,10 +70,25 @@ def actualAnswer(layer0_conv2d_weights, layer2_conv2d_weights,layer5_dense_weigh
 def main():
 
     model = loadModel()
+    n = 200
+    cnt = 0
     layer0_weights , layer2_weights , layer5_weights , layer6_weights = loadLayers()
-    testmodel, ans = testData()
-    actualAnswer(layer0_weights, layer2_weights, layer5_weights ,layer6_weights, testmodel)
-    print(ans)
+    (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+    x_train = x_train.astype("float32") / 255 - 0.5
+    x_test = x_test.astype("float32") / 255 - 0.5
+    x_train = np.expand_dims(x_train, -1)
+    x_test = np.expand_dims(x_test, -1)
+    for i in range(n):
+
+        testModel = x_test[i].reshape([1, 28, 28, -1])
+        # testmodel, ans = testData()
+        ans = actualAnswer(layer0_weights, layer2_weights, layer5_weights ,layer6_weights, testModel)
+        print("actual answer:" ,y_test[i])
+        if (y_test[i] == ans):
+            cnt+=1
+
+    print("accuracy ->" , (cnt/n)*100)
+
 
 
 if __name__ == "__main__":

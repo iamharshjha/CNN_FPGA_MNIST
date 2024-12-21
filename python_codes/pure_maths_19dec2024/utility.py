@@ -69,21 +69,41 @@ def flatten_column_major(inputImage: list) -> list:
 
     return flattened
 
-def DENSE(inputimg :list , weights :list , shape :tuple) -> list:
-    inlen ,outlen = shape
+def DENSE(inputimg: list, weights: list, shape: tuple) -> list:
+    inlen, outlen = shape
     mulWeights = weights[0]
     biasWeights = weights[1]
-    print("weights:" , mulWeights , " ")
-    print(np.array(mulWeights).shape)
-    print("bias :" , biasWeights )
-    print( np.array(biasWeights).shape)
+
+    # print("weights:", mulWeights, " ")
+    # print("Shape of weights:", np.array(mulWeights).shape)
+    # print("bias:", biasWeights)
+    # print("Shape of bias:", np.array(biasWeights).shape)
+    # print(inlen , outlen)
     output = np.zeros(outlen)
-    for i in range (outlen):
+
+    # Iterate over each output neuron
+    for i in range(outlen):
+        sum_value = 0  # To store the summation for the output neuron
+        #print(f"Calculating output neuron {i}:")
+
+        # Iterate over each input neuron
         for y in range(inlen):
-            output[i] += inputimg[y] * mulWeights[y][i]
-            output[i] += biasWeights[i]
-    # print("output after dense layer:")
-    # print(output)
+            # Multiply the input neuron with the corresponding weight
+            mul_value = inputimg[y] * mulWeights[y][i]
+            sum_value += mul_value  # Add to the sum for the output neuron
+
+            # Show the intermediate multiplication
+            #print(f"  input[{y}] * weight[{y}][{i}] = {inputimg[y]} * {mulWeights[y][i]} = {mul_value}")
+
+        # Add the bias for the output neuron
+        sum_value += biasWeights[i]
+        #print(f"  Adding bias: {biasWeights[i]}")
+
+        # Set the final output value for the current neuron
+        output[i] = sum_value
+        #print(f"  Final output value for neuron {i}: {output[i]}")
+
+    #print("Output after dense layer:", output)
     return output.tolist()
 
 
